@@ -1,0 +1,18 @@
+{
+  "taskdb": "gjgjg",
+  "projectdb":"fsdfs",
+  "resultdb": "cxvzczx",
+  "scheduler":{
+    "xmlrpc-host":"127.0.0.1",
+    "xmlrpc-port":"1111"
+  },
+  "message_queue": "redis://20.26.26.43:6379/db",
+  "queue_user": "aaaaa",
+  "webui": {
+    "scheduler-rpc":"http://127.0.0.1:1111",
+    "port":"6575",
+    "username": "aaaaa",
+    "password": "asdasda",
+    "need-auth": true
+  }
+}
