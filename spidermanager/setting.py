@@ -41,7 +41,7 @@ if PROFILE == 'dev':
 elif PROFILE == 'test':
     managerhosts = ['20.26.26.43']
     workerhosts = ['20.26.25.224','20.26.25.225']
-    SQLALCHEMY_DATABASE_URI = "oracle://pyspd_admin:pyspd_admin_1Q#@20.26.26.250:1521/pdb_bdprd"
+    SQLALCHEMY_DATABASE_URI = "oracle://pyspd_admin:pyspd_admin_1Q#@pdb_bdprd"
     redis_nodes =  [{'host':'20.26.25.224','port':7000},
                     {'host':'20.26.25.224','port':7001},
                     {'host':'20.26.25.224','port':7002},
@@ -85,7 +85,7 @@ elif PROFILE == 'test':
 elif PROFILE == 'prod':
     managerhosts = ['10.78.238.55']
     workerhosts = ['10.78.190.228','10.78.190.229','10.78.190.230','10.78.190.231','10.78.190.232','10.78.190.233','10.78.190.234','10.78.190.235']
-    SQLALCHEMY_DATABASE_URI = "oracle://pyspd_admin:pyspd_admin_1Q#@20.26.26.250:1521/pdb_bdprd"
+    SQLALCHEMY_DATABASE_URI = "oracle://pyspd_admin:pyspd_admin_1Q#@pdb_bdprd"
     redis_nodes =  [{'host':'10.78.155.61','port':16340},
                     {'host':'10.78.155.67','port':16340},
                     {'host':'10.78.155.68','port':16340},
