@@ -4,15 +4,14 @@ import os
 from jinja2 import Template
 
 from spidermanager.model.user import User
+from spidermanager.setting import basedir
 
 
 def generate_config(username):
 
-    crtPath = os.getcwdu()
+    filename = basedir + "/tmp/"+ username +".json"
 
-    filename = crtPath + "/tmp/"+ username +".json"
-
-    f0=open(crtPath + "/templates/config.tpl","r")
+    f0=open(basedir + "/templates/config.tpl","r")
 
     str = f0.read()
 

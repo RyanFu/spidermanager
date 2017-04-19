@@ -16,6 +16,7 @@ except Exception,e:
 
 
 if PROFILE == 'dev':
+    basedir='D:/programming/python/product/spidermanager/spidermanager'
     managerhosts = ['master.hadoop']
     workerhosts= ['slave1.hadoop','slave2.hadoop']
     SQLALCHEMY_DATABASE_URI = "oracle://spdmgr:spdmgr_1Q#@oracle-datasource:1521/pdbspdmgr"
@@ -39,6 +40,7 @@ if PROFILE == 'dev':
     hdfs_user = "hadoop"
 
 elif PROFILE == 'test':
+    basedir='/home/spd/spidermanager/server/spidermanager'
     managerhosts = ['20.26.26.43']
     workerhosts = ['20.26.25.224','20.26.25.225']
     SQLALCHEMY_DATABASE_URI = "oracle://pyspd_admin:pyspd_admin_1Q#@pdb_bdprd"
@@ -83,6 +85,7 @@ elif PROFILE == 'test':
 
 
 elif PROFILE == 'prod':
+    basedir='/home/spd/spidermanager/server/spidermanager'
     managerhosts = ['10.78.238.55']
     workerhosts = ['10.78.190.228','10.78.190.229','10.78.190.230','10.78.190.231','10.78.190.232','10.78.190.233','10.78.190.234','10.78.190.235']
     SQLALCHEMY_DATABASE_URI = "oracle://pyspd_admin:pyspd_admin_1Q#@pdb_bdprd"
