@@ -1,7 +1,7 @@
 {
-  "taskdb": "{{ taskdb }}",
-  "projectdb":"{{ projectdb }}",
-  "resultdb": "{{ resultdb }}",
+  "taskdb": "sqlalchemy+oracle+taskdb://{{ taskdb }}",
+  "projectdb":"sqlalchemy+oracle+projectdb://{{ projectdb }}",
+  "resultdb": "sqlalchemy+oracle+resultdb://{{ resultdb }}",
   "scheduler":{
     "xmlrpc-host":"{{ schedulerhost }}",
     "xmlrpc-port":"{{ schedulerport }}"

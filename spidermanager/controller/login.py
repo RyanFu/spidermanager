@@ -19,7 +19,7 @@ def login():
                 return login_as_admin(username, password)
             except Exception,e0:
                 print e0
-                return render_template('login.html', message='Incorrect username or password!')
+                return render_template('login.html', message='用户名或密码错误！')
     else:
         return render_template('login.html')
 
@@ -31,12 +31,14 @@ def logout():
 def login_as_user(username, password):
     user = User.query.filter_by(username=username).first()
     if(password == user.password):
+        if user.status != 'running':
+            return render_template('login.html', message='爬虫服务异常！请致电联系 齐希 13958112099 或 金星 13023660069')
         managerhost = managerhosts[0]
         managerport = user.webuiport
         link = "http://"+str(managerhost)+":"+str(managerport)
         return redirect(link)
     else:
-        return render_template('login.html', message='Incorrect username or password!')
+        return render_template('login.html', message='用户名或密码错误！')
 
 
 def login_as_admin(username, password):
@@ -45,4 +47,4 @@ def login_as_admin(username, password):
         session['admin'] = username
         return redirect(url_for('main'))
     else:
-        return render_template('login.html', message='Incorrect username or password!')
+        return render_template('login.html', message='用户名或密码错误！')
