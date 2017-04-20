@@ -101,7 +101,10 @@ def load():
     users = db.session.query(User).all()
 
     for user in users:
-        user.description = base64.b64decode(user.description)
+        try:
+            user.description = base64.b64decode(user.description)
+        except Exception,e:
+            print e
 
     return list2json(users)
 
@@ -111,9 +114,10 @@ def get():
 
     username = request.values.get('username')
     user = User.query.filter_by(username=username).first()
-
-    user.description = base64.b64decode(user.description)
-
+    try:
+        user.description = base64.b64decode(user.description)
+    except Exception,e:
+        print e
     return obj2json(user)
 
 @app.route("/user/getlink", methods=['GET','POST'])
