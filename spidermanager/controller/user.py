@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import base64
 import json
 
 from flask import request, redirect, url_for, jsonify
@@ -8,6 +9,10 @@ from spidermanager.model.user import User
 from spidermanager.setting import managerhosts
 from spidermanager.util.action_result import list2json, obj2json
 
+
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 @app.route("/user/add", methods=['GET','POST'])
 def add():
@@ -47,8 +52,7 @@ def edit():
 
     username = request.form.get('username')
     user = User.query.filter_by(username=username).first()
-
-    user.description = request.form.get('description')
+    user.description = base64.b64encode(request.form.get('description'))
     user.password = request.form.get('password')
     user.type = request.form.get('type')
     user.status = request.form.get('status')
@@ -96,6 +100,9 @@ def load():
 
     users = db.session.query(User).all()
 
+    for user in users:
+        user.description = base64.b64decode(user.description)
+
     return list2json(users)
 
 
@@ -104,6 +111,8 @@ def get():
 
     username = request.values.get('username')
     user = User.query.filter_by(username=username).first()
+
+    user.description = base64.b64decode(user.description)
 
     return obj2json(user)
 
