@@ -8,6 +8,8 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 SQLALCHEMY_NATIVE_UNICODE = True
 
+SECRET_KEY= 'ty@puton.info'
+
 
 try:
     PROFILE = os.environ["SPD_PROFILE"]

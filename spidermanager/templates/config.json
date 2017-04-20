@@ -7,6 +7,7 @@
     "xmlrpc-port":"23001"
   },
   "message_queue": "redis://20.26.26.43:6379/db",
+  "phantomjs-proxy": "127.0.0.1:25555",
   "queue_user": "user571",
   "webui": {
     "scheduler-rpc":"http://127.0.0.1:23001",

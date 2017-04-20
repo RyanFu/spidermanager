@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from spidermanager import app
 
-from spidermanager.controller import main, user
+from spidermanager.controller import main, user, login
 from spidermanager.setting import spdmgrport
 
 if __name__ == "__main__":
