@@ -39,14 +39,15 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-8 col-sm-offset-2 text">
-                            <h1>大数据云爬虫系统</h1>
+                            <img src="{{ url_for('static', filename='img/logo.png') }}">
+                            <span style="font-weight:400;font-size: 2em;vertical-align: middle">浙江移动云爬平台</span>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-6 col-sm-offset-3 form-box">
+                        <div class="col-sm-4 col-sm-offset-4 form-box">
                         	<div class="form-top">
                         		<div class="form-top-left">
-                        			<h3>登陆您的爬虫管理平台</h3>
+                        			<h3>欢迎登陆</h3>
                                     {% if message %}
                                         <p style="color:red"><b>{{ message }}</b></p>
                                     {% else %}
@@ -67,7 +68,7 @@
 			                        	<label class="sr-only" for="form-password">Password</label>
 			                        	<input type="password" name="form-password" placeholder="Password..." class="form-password form-control" id="form-password">
 			                        </div>
-			                        <button type="submit" class="btn">登陆</button>
+			                        <button type="submit" class="btn"><span style="font-size: 1.3em">登 陆</span></button>
 			                    </form>
 		                    </div>
                         </div>
