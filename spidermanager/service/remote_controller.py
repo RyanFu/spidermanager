@@ -108,7 +108,7 @@ class RemoteController:
     # killall(hostname, username, password)
 
     def startwebui(self, hostname, username, password):
-        command = 'nohup python ' + engine_pyspider_dir + '/run.py -c ' + self.config_path + ' webui > ' + self.log_path_mater + ' &'
+        command = 'nohup python ' + engine_pyspider_dir + '/run.py -c ' + self.config_path + ' webui > ' + self.log_path_master + ' &'
         print command
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
