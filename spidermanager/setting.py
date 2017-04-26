@@ -43,6 +43,8 @@ if PROFILE == 'dev':
     hdfs_user = "hadoop"
 
 elif PROFILE == 'test':
+    log_dir_master="/home/spd/spidermanager/runtime/log"
+    log_dir_slave = "/home/spd/spidermanager/runtime/log"
     spdmgrport=5888
     basedir='/home/spd/spidermanager/server/spidermanager'
     managerhosts = ['20.26.26.43']
@@ -89,11 +91,13 @@ elif PROFILE == 'test':
 
 
 elif PROFILE == 'prod':
+    log_dir_slave = "/data/log"
+    log_dir_master="/srv/BigData/data1/log/univider/pypider_log"
     spdmgrport=5000
     basedir='/home/spd/spidermanager/server/spidermanager'
     managerhosts = ['10.78.238.55']
     workerhosts = ['10.78.190.228','10.78.190.229','10.78.190.230','10.78.190.231','10.78.190.232','10.78.190.233','10.78.190.234','10.78.190.235']
-    SQLALCHEMY_DATABASE_URI = "oracle://pyspd_admin:pyspd_admin_1Q#@pdb_bdprd"
+    SQLALCHEMY_DATABASE_URI = "oracle://spd_admin:spd_admin_1Q#@pdb_spider"
     redis_nodes =  [{'host':'10.78.155.61','port':16340},
                     {'host':'10.78.155.67','port':16340},
                     {'host':'10.78.155.68','port':16340},

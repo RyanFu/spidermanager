@@ -2,7 +2,7 @@
 
 import paramiko
 
-from spidermanager.setting import managerhosts, workerhosts
+from spidermanager.setting import managerhosts, workerhosts,log_dir_slave,log_dir_master
 
 
 allhosts = managerhosts + workerhosts
@@ -20,7 +20,8 @@ class RemoteController:
 
     def __init__(self, user):
         self.user = user
-        self.log_path = log_dir + "/" + user + ".log"
+        self.log_path_slave = log_dir_slave + "/" + user + ".log"
+        self.log_path_master=log_dir_master + "/" + user + ".log"
         self.config_path = runtime_dir+"/"+user+".json"
 
     def mkconfigdir(self, hostname, username, password):
@@ -107,7 +108,7 @@ class RemoteController:
     # killall(hostname, username, password)
 
     def startwebui(self, hostname, username, password):
-        command = 'nohup python ' + engine_pyspider_dir + '/run.py -c ' + self.config_path + ' webui > ' + self.log_path + ' &'
+        command = 'nohup python ' + engine_pyspider_dir + '/run.py -c ' + self.config_path + ' webui > ' + self.log_path_mater + ' &'
         print command
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -120,7 +121,7 @@ class RemoteController:
     # startwebui(hostname, username, password)
     
     def startscheduler(self, hostname, username, password):
-        command = 'nohup python ' + engine_pyspider_dir + '/run.py -c ' + self.config_path + ' scheduler > ' + self.log_path + ' &'
+        command = 'nohup python ' + engine_pyspider_dir + '/run.py -c ' + self.config_path + ' scheduler > ' + self.log_path_master + ' &'
         print command
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -133,7 +134,7 @@ class RemoteController:
     # startscheduler(hostname, username, password)
     
     def startfetcher(self, hostname, username, password):
-        command = 'nohup python ' + engine_pyspider_dir + '/run.py -c ' + self.config_path + ' fetcher > ' + self.log_path + ' &'
+        command = 'nohup python ' + engine_pyspider_dir + '/run.py -c ' + self.config_path + ' fetcher > ' + self.log_path_slave + ' &'
         print command
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -146,7 +147,7 @@ class RemoteController:
     # startfetcher(hostname, username, password)
     
     def startprocessor(self, hostname, username, password):
-        command = 'nohup python ' + engine_pyspider_dir + '/run.py -c ' + self.config_path + ' processor > ' + self.log_path + ' &'
+        command = 'nohup python ' + engine_pyspider_dir + '/run.py -c ' + self.config_path + ' processor > ' + self.log_path_slave + ' &'
         print command
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -159,7 +160,7 @@ class RemoteController:
     # startprocessor(hostname, username, password)
     
     def startresultworker(self, hostname, username, password):
-        command = 'nohup python ' + engine_pyspider_dir + '/run.py -c ' + self.config_path + ' result_worker > ' + self.log_path + ' &'
+        command = 'nohup python ' + engine_pyspider_dir + '/run.py -c ' + self.config_path + ' result_worker > ' + self.log_path_slave + ' &'
         print command
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
