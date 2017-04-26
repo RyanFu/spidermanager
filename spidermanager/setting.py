@@ -92,7 +92,7 @@ elif PROFILE == 'test':
 
 elif PROFILE == 'prod':
     log_dir_slave = "/data/log"
-    log_dir_master="/srv/BigData/data1/log/univider/pypider_log"
+    log_dir_master="/srv/BigData/data1/log/univider/pyspider_log"
     spdmgrport=5000
     basedir='/home/spd/spidermanager/server/spidermanager'
     managerhosts = ['10.78.238.55']
