@@ -96,7 +96,7 @@ elif PROFILE == 'prod':
     spdmgrport=5000
     basedir='/home/spd/spidermanager/server/spidermanager'
     managerhosts = ['10.78.238.55']
-    workerhosts = ['10.78.190.228','10.78.190.229','10.78.190.230','10.78.190.231','10.78.190.232','10.78.190.233','10.78.190.234','10.78.190.235']
+    workerhosts = ['10.78.190.229','10.78.190.230','10.78.190.231','10.78.190.232','10.78.190.233','10.78.190.234','10.78.190.235']
     SQLALCHEMY_DATABASE_URI = "oracle://spd_admin:spd_admin_1Q#@pdb_spider"
     redis_nodes =  [{'host':'10.78.155.61','port':16340},
                     {'host':'10.78.155.67','port':16340},
