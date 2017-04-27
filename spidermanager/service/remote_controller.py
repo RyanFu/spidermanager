@@ -170,8 +170,8 @@ class RemoteController:
         print stdout.read()
         ssh.close()
 
-    def startphantomjs(self, hostname, username, password):
-        command = 'nohup python ' + engine_pyspider_dir + '/run.py -c ' + self.config_path + ' phantomjs >> ' + self.log_path_slave + ' &'
+    def startphantomjs_master(self, hostname, username, password):
+        command = 'nohup python ' + engine_pyspider_dir + '/run.py -c ' + self.config_path + ' phantomjs >> ' + self.log_path_master + ' &'
         print command
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -181,19 +181,29 @@ class RemoteController:
         print stdout.read()
         ssh.close()
     # startresultworker(hostname, username, password)
-    
+    def startphantomjs_slave(self, hostname, username, password):
+        command = 'nohup python ' + engine_pyspider_dir + '/run.py -c ' + self.config_path + ' phantomjs >> ' + self.log_path_slave + ' &'
+        print command
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        ssh.connect(hostname=hostname, username=username, password=password)
+        stdin, stdout, stderr = ssh.exec_command(command=command0 + command)
+        print stderr.read()
+        print stdout.read()
+        ssh.close()
+
     def startmanagernode(self, hostname, username, password):
         self.prepare(hostname, username, password)
         self.startwebui(hostname, username, password)
         self.startscheduler(hostname, username, password)
-        self.startphantomjs(hostname, username, password)
+        self.startphantomjs_master(hostname, username, password)
     
     def startworkernode(self, hostname, username, password):
         self.prepare(hostname, username, password)
         self.startfetcher(hostname, username, password)
         self.startprocessor(hostname, username, password)
         self.startresultworker(hostname, username, password)
-        self.startphantomjs(hostname, username, password)
+        self.startphantomjs_slave(hostname, username, password)
     
     def startallmanagernode(self):
         for i in range(0, len(managerhosts)):
