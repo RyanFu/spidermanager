@@ -127,13 +127,18 @@ function get_user_type(username){
 	    };
 
 	    $.ajax(settings).done(function (response) {
-	        return response.type;
+	    	if(response.status=="ok"){
+	    		return response.type;
+	        }else if(response.status=="error"){
+	            alert(response.detail);
+	        }    
 	    });
 }
 
 $('#user-tbody').on('click','.btn-start', function (e) {
+	var type = get_user_type($(this).parent().parent().data('id'))
     if(confirm("确认启动吗")){
-        executeCommand($(this).parent().parent().data('id'),get_user_type($(this).parent().parent().data('id')),"start");
+        executeCommand($(this).parent().parent().data('id'),type,"start");
     } else {
         return;
     }
