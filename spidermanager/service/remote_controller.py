@@ -193,7 +193,7 @@ class RemoteController:
         for i in range(0, len(managerhosts)):
             self.startmanagernode(managerhosts[i], username, password)
     
-    def startallworkernode(self):
+    def startallworkernode(self,type):
         for i in range(0, len(workerhosts)):
             self.startworkernode(workerhosts[i], username, password, type)
         
