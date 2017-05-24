@@ -128,12 +128,8 @@ function get_user_type(username){
 	    };
 
 	    $.ajax(settings).done(function (response) {
-	    	if(response.status=="ok"){
 	    		user_type = response.type;
-	    		alert("get:"+user_type);
-	        }else if(response.status=="error"){
-	            alert(response.detail);
-	        }    
+	    		alert("get:"+user_type);  
 	    });
 }
 $('#user-tbody').on('click','.btn-start', function (e) {
