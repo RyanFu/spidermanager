@@ -116,7 +116,8 @@ function deleteUser(username){
 
 $('#user-tbody').on('click','.btn-start', function (e) {
     if(confirm("确认启动吗")){
-        executeCommand($(this).parent().parent().data('id'),"start")
+    	console.log($(this).parent().parent().data('type'));
+        executeCommand($(this).parent().parent().data('id'),$(this).parent().parent().data('type'),"start");
     } else {
         return;
     }
@@ -124,7 +125,7 @@ $('#user-tbody').on('click','.btn-start', function (e) {
 
 $('#user-tbody').on('click','.btn-stop', function (e) {
     if(confirm("确认停止吗")){
-        executeCommand($(this).parent().parent().data('id'),"stop")
+        executeCommand($(this).parent().parent().data('id'),"","stop");
     } else {
         return;
     }
@@ -132,13 +133,13 @@ $('#user-tbody').on('click','.btn-stop', function (e) {
 
 $('#user-tbody').on('click','.btn-restart', function (e) {
     if(confirm("确认重启吗")){
-        executeCommand($(this).parent().parent().data('id'),"restart")
+        executeCommand($(this).parent().parent().data('id'),$(this).parent().parent().data('type'),"restart");
     } else {
         return;
     }
 });
 
-function executeCommand(username,action){
+function executeCommand(username,type,action){
 
     var settings = {
       "async": true,
@@ -146,7 +147,8 @@ function executeCommand(username,action){
       "url": "user/"+action,
       "method": "POST",
       "data": {
-          "username":username
+          "username":username,
+          "type":type
       }
     };
 

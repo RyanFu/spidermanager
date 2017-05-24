@@ -18,6 +18,5 @@ class Admin(db.Model):
         self.description = description
         self.password = password
 
-
     def __repr__(self):
         return '<Admin %r>' % (self.username)

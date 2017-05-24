@@ -95,7 +95,7 @@ class RemoteController:
     # prepare(hostname, username, password)
 
     def killallcomponent(self, hostname, username, password):
-        command = 'ps -ef |grep ' + self.user +'.json |awk \'{print $2}\'|xargs kill -9'
+        command = 'ps -ef |grep ' + self.user +'.json | grep -v grep |awk \'{print $2}\'|xargs kill -s 9'
         print command
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -113,7 +113,7 @@ class RemoteController:
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.connect(hostname=hostname, username=username, password=password)
-        stdin, stdout, stderr = ssh.exec_command(command=command0+command)
+        stdin, stdout, stderr = ssh.exec_command(command=command)
         print stderr.read()
         print stdout.read()
         ssh.close()
@@ -126,19 +126,27 @@ class RemoteController:
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.connect(hostname=hostname, username=username, password=password)
-        stdin, stdout, stderr = ssh.exec_command(command=command0+command)
+        stdin, stdout, stderr = ssh.exec_command(command=command)
         print stderr.read()
         print stdout.read()
         ssh.close()
     
     # startscheduler(hostname, username, password)
     
-    def startfetcher(self, hostname, username, password):
+    def startfetcher(self, hostname, username, password, type):
         command = 'nohup python ' + engine_pyspider_dir + '/run.py -c ' + self.config_path + ' fetcher >> ' +self.log_path_slave + ' &'
         print command
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.connect(hostname=hostname, username=username, password=password)
+        if type == 'ultimate':
+            num_fetcher = 50
+        elif type == 'premium':
+            num_fetcher = 10
+        else:
+            num_fetcher = 1
+        for i in range(1,num_fetcher):
+            command=command+command
         stdin, stdout, stderr = ssh.exec_command(command=command0+command)
         print stderr.read()
         print stdout.read()
@@ -170,40 +178,16 @@ class RemoteController:
         print stdout.read()
         ssh.close()
 
-    def startphantomjs_master(self, hostname, username, password):
-        command = 'nohup python ' + engine_pyspider_dir + '/run.py -c ' + self.config_path + ' phantomjs >> ' + self.log_path_master + ' &'
-        print command
-        ssh = paramiko.SSHClient()
-        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        ssh.connect(hostname=hostname, username=username, password=password)
-        stdin, stdout, stderr = ssh.exec_command(command=command0 + command)
-        print stderr.read()
-        print stdout.read()
-        ssh.close()
-    # startresultworker(hostname, username, password)
-    def startphantomjs_slave(self, hostname, username, password):
-        command = 'nohup python ' + engine_pyspider_dir + '/run.py -c ' + self.config_path + ' phantomjs >> ' + self.log_path_slave + ' &'
-        print command
-        ssh = paramiko.SSHClient()
-        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        ssh.connect(hostname=hostname, username=username, password=password)
-        stdin, stdout, stderr = ssh.exec_command(command=command0 + command)
-        print stderr.read()
-        print stdout.read()
-        ssh.close()
-
     def startmanagernode(self, hostname, username, password):
         self.prepare(hostname, username, password)
         self.startwebui(hostname, username, password)
         self.startscheduler(hostname, username, password)
-        self.startphantomjs_master(hostname, username, password)
     
-    def startworkernode(self, hostname, username, password):
+    def startworkernode(self, hostname, username, password, type):
         self.prepare(hostname, username, password)
-        self.startfetcher(hostname, username, password)
+        self.startfetcher(hostname, username, password, type)
         self.startprocessor(hostname, username, password)
         self.startresultworker(hostname, username, password)
-        self.startphantomjs_slave(hostname, username, password)
     
     def startallmanagernode(self):
         for i in range(0, len(managerhosts)):
@@ -211,12 +195,11 @@ class RemoteController:
     
     def startallworkernode(self):
         for i in range(0, len(workerhosts)):
-            self.startworkernode(workerhosts[i], username, password)
-    
-    
-    def startall(self):
+            self.startworkernode(workerhosts[i], username, password, type)
+        
+    def startall(self,type):
         self.startallmanagernode()
-        self.startallworkernode()
+        self.startallworkernode(type)
     
     def killall(self):
         for i in range(0, len(allhosts)):

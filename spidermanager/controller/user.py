@@ -97,7 +97,7 @@ def delete():
 
 @app.route("/user/load", methods=['GET','POST'])
 def load():
-
+    print User
     users = db.session.query(User).all()
 
     for user in users:
@@ -134,7 +134,6 @@ def getlink():
 
 @app.route("/user/start", methods=['GET','POST'])
 def start():
-
     username = request.values.get('username')
     from spidermanager.service.remote_controller import RemoteController
     rc = RemoteController(username)

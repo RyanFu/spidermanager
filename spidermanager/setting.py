@@ -22,7 +22,8 @@ if PROFILE == 'dev':
     spdmgrport=5000
     managerhosts = ['master.hadoop']
     workerhosts= ['slave1.hadoop','slave2.hadoop']
-    SQLALCHEMY_DATABASE_URI = "oracle://spdmgr:spdmgr_1Q#@oracle-datasource:1521/pdbspdmgr"
+    #SQLALCHEMY_DATABASE_URI = "oracle://spdmgr:spdmgr_1Q#@oracle-datasource:1521/pdbspdmgr"
+    SQLALCHEMY_DATABASE_URI = "oracle://SCOTT:gb666666@localhost:1521/ORCL"
     # SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://app:123456@localhost:3306/spdmgr"
     redis_nodes =  [{'host':'192.168.136.130','port':7000},
                     {'host':'192.168.136.130','port':7001},
