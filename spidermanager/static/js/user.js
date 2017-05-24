@@ -116,7 +116,7 @@ function deleteUser(username){
 
 $('#user-tbody').on('click','.btn-start', function (e) {
     if(confirm("确认启动吗")){
-    	console.log($(this).parent().parent().data('type'));
+    	console.log("type:"+$(this).parent().parent().getElementsByTagName("td")[3].innerHTML);
         executeCommand($(this).parent().parent().data('id'),$(this).parent().parent().data('type'),"start");
     } else {
         return;
