@@ -116,7 +116,7 @@ function deleteUser(username){
 
 function get_user_type(username){
 	    var settings = {
-	      "async": true,
+	      "async": false,
 	      "dataType" : "json",
 	      "url": "user/get",
 	      "method": "POST",
@@ -137,6 +137,7 @@ function get_user_type(username){
 $('#user-tbody').on('click','.btn-start', function (e) {
 	var username = $(this).parent().parent().data('id');
 	var user_type = get_user_type(username);
+	alert(user_type)
     if(confirm("确认启动吗")){
         executeCommand(username,user_type,"start");
     } else {
@@ -163,7 +164,7 @@ $('#user-tbody').on('click','.btn-restart', function (e) {
 });
 
 function executeCommand(username,user_type,action){
-	alert(user_type);
+	alert(username+user_type);
     var settings = {
       "async": true,
       "dataType" : "json",

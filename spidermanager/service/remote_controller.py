@@ -134,15 +134,15 @@ class RemoteController:
     
     # startscheduler(hostname, username, password)
     
-    def startfetcher(self, hostname, username, password, type):
+    def startfetcher(self, hostname, username, password, user_type):
         command = 'nohup python ' + engine_pyspider_dir + '/run.py -c ' + self.config_path + ' fetcher >> ' +self.log_path_slave + ' &'
         print command
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.connect(hostname=hostname, username=username, password=password)
-        if type == 'ultimate':
+        if user_type == 'ultimate':
             num_fetcher = 50
-        elif type == 'premium':
+        elif user_type == 'premium':
             num_fetcher = 10
         else:
             num_fetcher = 1
@@ -184,9 +184,9 @@ class RemoteController:
         self.startwebui(hostname, username, password)
         self.startscheduler(hostname, username, password)
     
-    def startworkernode(self, hostname, username, password, type):
+    def startworkernode(self, hostname, username, password, user_type):
         self.prepare(hostname, username, password)
-        self.startfetcher(hostname, username, password, type)
+        self.startfetcher(hostname, username, password, user_type)
         self.startprocessor(hostname, username, password)
         self.startresultworker(hostname, username, password)
     
@@ -194,13 +194,13 @@ class RemoteController:
         for i in range(0, len(managerhosts)):
             self.startmanagernode(managerhosts[i], username, password)
     
-    def startallworkernode(self,type):
+    def startallworkernode(self,user_type):
         for i in range(0, len(workerhosts)):
-            self.startworkernode(workerhosts[i], username, password, type)
+            self.startworkernode(workerhosts[i], username, password, user_type)
         
-    def startall(self,type):
+    def startall(self,user_type):
         self.startallmanagernode()
-        self.startallworkernode(type)
+        self.startallworkernode(user_type)
     
     def killall(self):
         for i in range(0, len(allhosts)):
