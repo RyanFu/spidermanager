@@ -116,10 +116,9 @@ function deleteUser(username){
     });
 }
 
-//var user_type = '';
-function get_user_type(username){
+function getUserType_to_start(username,hint,action){
 	    var settings = {
-	      "async": false,
+	      "async": true,
 	      "dataType" : "json",
 	      "url": "user/get",
 	      "method": "POST",
@@ -131,37 +130,27 @@ function get_user_type(username){
 	    $.ajax(settings).done(function (response) {
 	    		var user_type = response.type;
 	    		alert("get:"+user_type);
-	    		return user_type;
+	    		if(confirm(hint)){
+	    	        executeCommand(username,user_type,action);
+	    	    } else {
+	    	        return;
+	    	    }
 	    });
 }
+
 $('#user-tbody').on('click','.btn-start', function (e) {
     var username = $(this).parent().parent().data('id');
-    var user_type = get_user_type(username);
-    alert(user_type);
-    if(confirm("确认启动吗")){
-        executeCommand(username,user_type,"start");
-    } else {
-        return;
-    }
+    getUserType_to_start(username,"确认启动吗","start");
 });
 
 $('#user-tbody').on('click','.btn-stop', function (e) {
-    if(confirm("确认停止吗")){
-        executeCommand($(this).parent().parent().data('id'),"","stop");
-    } else {
-        return;
-    }
+    var username = $(this).parent().parent().data('id');
+    getUserType_to_start(username,"确认停止吗","stop");
 });
 
 $('#user-tbody').on('click','.btn-restart', function (e) {
-	var username = $(this).parent().parent().data('id');
-    var user_type = get_user_type(username);
-    alert(user_type);
-	if(confirm("确认重启吗")){
-        executeCommand(username,user_type,"restart");
-    } else {
-        return;
-    }
+    var username = $(this).parent().parent().data('id');
+    getUserType_to_start(username,"确认重启吗","restart");
 });
 
 function executeCommand(username,user_type,action){
