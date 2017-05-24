@@ -117,7 +117,7 @@ function deleteUser(username){
 $('#user-tbody').on('click','.btn-start', function (e) {
     if(confirm("确认启动吗")){
     	console.log("type:"+$(this).parent().parent().getElementsByTagName("td")[3].innerHTML);
-        executeCommand($(this).parent().parent().data('id'),$(this).parent().parent().data('type'),"start");
+        executeCommand($(this).parent().parent().data('id'),$(this).parent().parent().getElementsByTagName("td")[3].innerHTML,"start");
     } else {
         return;
     }
@@ -133,7 +133,7 @@ $('#user-tbody').on('click','.btn-stop', function (e) {
 
 $('#user-tbody').on('click','.btn-restart', function (e) {
     if(confirm("确认重启吗")){
-        executeCommand($(this).parent().parent().data('id'),$(this).parent().parent().data('type'),"restart");
+        executeCommand($(this).parent().parent().data('id'),$(this).parent().parent().getElementsByTagName("td")[3].innerHTML,"restart");
     } else {
         return;
     }
