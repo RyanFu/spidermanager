@@ -2,6 +2,8 @@
  * Created by taoyang on 2017/3/23.
  */
 
+var user_type = '';
+
 $(function(){
     reload();
 });
@@ -114,12 +116,32 @@ function deleteUser(username){
     });
 }
 
+function get_user_type(username){
+	    var settings = {
+	      "async": false,
+	      "dataType" : "json",
+	      "url": "user/get",
+	      "method": "POST",
+	      "data": {
+	          "username":username
+	      }
+	    };
+
+	    $.ajax(settings).done(function (response) {
+	    	if(response.status=="ok"){
+	    		user_type = response.type;
+	    		alert("get:"+user_type);
+	        }else if(response.status=="error"){
+	            alert(response.detail);
+	        }    
+	    });
+}
 $('#user-tbody').on('click','.btn-start', function (e) {
     var username = $(this).parent().parent().data('id');
-    var user_type = get_user_type(username);
+    get_user_type(username);
     alert(user_type);
     if(confirm("确认启动吗")){
-        executeCommand(username,user_type,"start");
+        executeCommand(username,"start");
     } else {
         return;
     }
@@ -127,7 +149,7 @@ $('#user-tbody').on('click','.btn-start', function (e) {
 
 $('#user-tbody').on('click','.btn-stop', function (e) {
     if(confirm("确认停止吗")){
-        executeCommand($(this).parent().parent().data('id'),"","stop");
+        executeCommand($(this).parent().parent().data('id'),"stop");
     } else {
         return;
     }
@@ -135,15 +157,15 @@ $('#user-tbody').on('click','.btn-stop', function (e) {
 
 $('#user-tbody').on('click','.btn-restart', function (e) {
 	var username = $(this).parent().parent().data('id');
-	var user_type = get_user_type(username);
+	get_user_type(username);
 	if(confirm("确认重启吗")){
-        executeCommand(username,user_type,"restart");
+        executeCommand(username,"restart");
     } else {
         return;
     }
 });
 
-function executeCommand(username,user_type,action){
+function executeCommand(username,action){
 	alert(username+user_type);
     var settings = {
       "async": true,
@@ -165,25 +187,6 @@ function executeCommand(username,user_type,action){
     });
 }
 
-function get_user_type(username){
-	    var settings = {
-	      "async": false,
-	      "dataType" : "json",
-	      "url": "user/get",
-	      "method": "POST",
-	      "data": {
-	          "username":username
-	      }
-	    };
-
-	    $.ajax(settings).done(function (response) {
-	    	if(response.status=="ok"){
-	    		return response.type;
-	        }else if(response.status=="error"){
-	            alert(response.detail);
-	        }    
-	    });
-}
 
 $('#user-tbody').on('click','.btn-detail', function (e) {
 
