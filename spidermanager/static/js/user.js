@@ -2,7 +2,7 @@
  * Created by taoyang on 2017/3/23.
  */
 
-var user_type = '';
+
 
 $(function(){
     reload();
@@ -116,6 +116,7 @@ function deleteUser(username){
     });
 }
 
+//var user_type = '';
 function get_user_type(username){
 	    var settings = {
 	      "async": false,
@@ -128,16 +129,17 @@ function get_user_type(username){
 	    };
 
 	    $.ajax(settings).done(function (response) {
-	    		user_type = response.type;
-	    		alert("get:"+user_type);  
+	    		var user_type = response.type;
+	    		alert("get:"+user_type);
+	    		return user_type;
 	    });
 }
 $('#user-tbody').on('click','.btn-start', function (e) {
     var username = $(this).parent().parent().data('id');
-    get_user_type(username);
+    var user_type = get_user_type(username);
     alert(user_type);
     if(confirm("确认启动吗")){
-        executeCommand(username,"start");
+        executeCommand(username,user_type,"start");
     } else {
         return;
     }
@@ -145,7 +147,7 @@ $('#user-tbody').on('click','.btn-start', function (e) {
 
 $('#user-tbody').on('click','.btn-stop', function (e) {
     if(confirm("确认停止吗")){
-        executeCommand($(this).parent().parent().data('id'),"stop");
+        executeCommand($(this).parent().parent().data('id'),"","stop");
     } else {
         return;
     }
@@ -153,15 +155,16 @@ $('#user-tbody').on('click','.btn-stop', function (e) {
 
 $('#user-tbody').on('click','.btn-restart', function (e) {
 	var username = $(this).parent().parent().data('id');
-	get_user_type(username);
+    var user_type = get_user_type(username);
+    alert(user_type);
 	if(confirm("确认重启吗")){
-        executeCommand(username,"restart");
+        executeCommand(username,user_type,"restart");
     } else {
         return;
     }
 });
 
-function executeCommand(username,action){
+function executeCommand(username,user_type,action){
 	alert(username+user_type);
     var settings = {
       "async": true,
