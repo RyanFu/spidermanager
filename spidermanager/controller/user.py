@@ -135,9 +135,10 @@ def getlink():
 @app.route("/user/start", methods=['GET','POST'])
 def start():
     username = request.values.get('username')
+    type = request.values.get('type')
     from spidermanager.service.remote_controller import RemoteController
     rc = RemoteController(username)
-    rc.startall()
+    rc.startall(type)
     user = User.query.filter_by(username=username).first()
     user.status = "running"
     try:
@@ -183,10 +184,11 @@ def stop():
 def restart():
 
     username = request.values.get('username')
+    type = request.values.get('type')
     from spidermanager.service.remote_controller import RemoteController
     rc = RemoteController(username)
     rc.killall()
-    rc.startall()
+    rc.startall(type)
     user = User.query.filter_by(username=username).first()
     user.status = "running"
     try:
