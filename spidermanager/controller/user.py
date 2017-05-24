@@ -134,6 +134,7 @@ def getlink():
 def start():
     username = request.values.get('username')
     type = request.values.get('type')
+    print "get type:"+type
     from spidermanager.service.remote_controller import RemoteController
     rc = RemoteController(username)
     rc.startall(type)
