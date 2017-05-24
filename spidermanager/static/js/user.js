@@ -114,30 +114,10 @@ function deleteUser(username){
     });
 }
 
-function get_user_type(username){
-	    var settings = {
-	      "async": false,
-	      "dataType" : "json",
-	      "url": "user/get",
-	      "method": "POST",
-	      "data": {
-	          "username":username
-	      }
-	    };
-
-	    $.ajax(settings).done(function (response) {
-	    	if(response.status=="ok"){
-	    		return response.type;
-	        }else if(response.status=="error"){
-	            alert(response.detail);
-	        }    
-	    });
-}
-
 $('#user-tbody').on('click','.btn-start', function (e) {
-	var username = $(this).parent().parent().data('id');
-	var user_type = get_user_type(username);
-	alert(user_type)
+    var username = $(this).parent().parent().data('id');
+    var user_type = get_user_type(username);
+    alert(user_type);
     if(confirm("确认启动吗")){
         executeCommand(username,user_type,"start");
     } else {
@@ -183,6 +163,26 @@ function executeCommand(username,user_type,action){
             alert(response.detail);
         }
     });
+}
+
+function get_user_type(username){
+	    var settings = {
+	      "async": false,
+	      "dataType" : "json",
+	      "url": "user/get",
+	      "method": "POST",
+	      "data": {
+	          "username":username
+	      }
+	    };
+
+	    $.ajax(settings).done(function (response) {
+	    	if(response.status=="ok"){
+	    		return response.type;
+	        }else if(response.status=="error"){
+	            alert(response.detail);
+	        }    
+	    });
 }
 
 $('#user-tbody').on('click','.btn-detail', function (e) {
