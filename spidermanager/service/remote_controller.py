@@ -113,6 +113,7 @@ class RemoteController:
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.connect(hostname=hostname, username=username, password=password)
+        #测试环境需要加command0才能启动webui，而生产环境不加才能启动 T.T
         stdin, stdout, stderr = ssh.exec_command(command=command0+command)
         print stderr.read()
         print stdout.read()

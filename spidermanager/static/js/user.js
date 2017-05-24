@@ -114,10 +114,26 @@ function deleteUser(username){
     });
 }
 
+function get_user_type(username){
+	$('#username').attr("disabled",true);
+	    var settings = {
+	      "async": true,
+	      "dataType" : "json",
+	      "url": "user/get",
+	      "method": "POST",
+	      "data": {
+	          "username":username
+	      }
+	    };
+
+	    $.ajax(settings).done(function (response) {
+	        return response.type;
+	    });
+}
+
 $('#user-tbody').on('click','.btn-start', function (e) {
     if(confirm("确认启动吗")){
-    	console.log("type:"+$(this).parent().parent().getElementsByTagName("td")[3].innerHTML);
-        executeCommand($(this).parent().parent().data('id'),$(this).parent().parent().getElementsByTagName("td")[3].innerHTML,"start");
+        executeCommand($(this).parent().parent().data('id'),get_user_type($(this).parent().parent().data('id')),"start");
     } else {
         return;
     }
@@ -133,7 +149,7 @@ $('#user-tbody').on('click','.btn-stop', function (e) {
 
 $('#user-tbody').on('click','.btn-restart', function (e) {
     if(confirm("确认重启吗")){
-        executeCommand($(this).parent().parent().data('id'),$(this).parent().parent().getElementsByTagName("td")[3].innerHTML,"restart");
+        executeCommand($(this).parent().parent().data('id'),get_user_type($(this).parent().parent().data('id')),"restart");
     } else {
         return;
     }

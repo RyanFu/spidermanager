@@ -107,7 +107,6 @@ def load():
 
     return list2json(users)
 
-
 @app.route("/user/get", methods=['GET','POST'])
 def get():
 
