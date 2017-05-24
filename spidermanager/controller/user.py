@@ -97,7 +97,6 @@ def delete():
 
 @app.route("/user/load", methods=['GET','POST'])
 def load():
-    print User
     users = db.session.query(User).all()
 
     for user in users:
