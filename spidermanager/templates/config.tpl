@@ -17,7 +17,7 @@
     "username": "{{ username }}",
     "password": "{{ password }}",
     "need-auth": true
-  }
+  },
    "phantomjs": {
    "phantomjs-path":"/home/spd/phantomjs-2.1.1-linux-x86_64/bin/phantomjs",
    "ports": "25550,25551,25552"
