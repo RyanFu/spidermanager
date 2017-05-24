@@ -136,10 +136,9 @@ function get_user_type(username){
 
 $('#user-tbody').on('click','.btn-start', function (e) {
 	var username = $(this).parent().parent().data('id');
-	var type = get_user_type(username);
-	consle.log("AAAA"+type);
+	var user_type = get_user_type(username);
     if(confirm("确认启动吗")){
-        executeCommand(username,type,"start");
+        executeCommand(username,user_type,"start");
     } else {
         return;
     }
@@ -154,15 +153,17 @@ $('#user-tbody').on('click','.btn-stop', function (e) {
 });
 
 $('#user-tbody').on('click','.btn-restart', function (e) {
-    if(confirm("确认重启吗")){
-        executeCommand($(this).parent().parent().data('id'),get_user_type($(this).parent().parent().data('id')),"restart");
+	var username = $(this).parent().parent().data('id');
+	var user_type = get_user_type(username);
+	if(confirm("确认重启吗")){
+        executeCommand(username,user_type,"restart");
     } else {
         return;
     }
 });
 
-function executeCommand(username,type,action){
-
+function executeCommand(username,user_type,action){
+	alert(user_type);
     var settings = {
       "async": true,
       "dataType" : "json",
@@ -170,7 +171,7 @@ function executeCommand(username,type,action){
       "method": "POST",
       "data": {
           "username":username,
-          "type":type
+          "user_type":user_type
       }
     };
 
