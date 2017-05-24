@@ -115,7 +115,6 @@ function deleteUser(username){
 }
 
 function get_user_type(username){
-	$('#username').attr("disabled",true);
 	    var settings = {
 	      "async": true,
 	      "dataType" : "json",
@@ -136,9 +135,11 @@ function get_user_type(username){
 }
 
 $('#user-tbody').on('click','.btn-start', function (e) {
-	var type = get_user_type($(this).parent().parent().data('id'))
+	var username = $(this).parent().parent().data('id');
+	var type = get_user_type(username);
+	consle.log("AAAA"+type);
     if(confirm("确认启动吗")){
-        executeCommand($(this).parent().parent().data('id'),type,"start");
+        executeCommand(username,type,"start");
     } else {
         return;
     }
