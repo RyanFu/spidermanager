@@ -147,10 +147,9 @@ class RemoteController:
         else:
             num_fetcher = 1
         for i in range(1,num_fetcher):
-            command=command+command
-        stdin, stdout, stderr = ssh.exec_command(command=command0+command)
-        print stderr.read()
-        print stdout.read()
+            stdin, stdout, stderr = ssh.exec_command(command=command0+command)
+            print stderr.read()
+            print stdout.read()
         ssh.close()
     
     # startfetcher(hostname, username, password)
