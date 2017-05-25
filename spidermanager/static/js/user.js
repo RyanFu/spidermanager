@@ -129,7 +129,7 @@ function getUserType_to_start(username,hint,action){
 
 	    $.ajax(settings).done(function (response) {
 	    		var user_type = response.type;
-	    		alert("get:"+user_type);
+	    		alert("gets:"+user_type);
 	    		if(confirm(hint)){
 	    	        executeCommand(username,user_type,action);
 	    	    } else {
