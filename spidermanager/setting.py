@@ -18,6 +18,8 @@ except Exception,e:
 
 
 if PROFILE == 'dev':
+    log_dir_master="D:/Git/pyspider/git/spidermanager/spidermanager"
+    log_dir_slave = "D:/Git/pyspider/git/spidermanager/spidermanager"
     basedir='D:/Git/pyspider/git/spidermanager/spidermanager'
     spdmgrport=5000
     managerhosts = ['master.hadoop']

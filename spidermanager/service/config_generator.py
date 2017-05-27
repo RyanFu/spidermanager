@@ -17,7 +17,7 @@ def generate_config(username):
     f0.close()
 
     tpl = Template(str_f0)
-    if username=="phantomjs":#用来启动phantomjs组件，其余组件不用考虑
+    if username=="phantomjs":#只用来过滤启动phantomjs组件,其余组件不用考虑
         config =  tpl.render(
             taskdb="",
             projectdb="",
