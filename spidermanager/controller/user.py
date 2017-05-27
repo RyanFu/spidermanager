@@ -157,11 +157,17 @@ def start():
 
 @app.route("/user/loadPhantomjs", methods=['GET','POST'])
 def loadPhantomjs():
-    resp = {
-        "startport":session['startport'],
-        "endport":session['endport']
-    }
-    return json.dumps({resp})
+    try:
+        resp = {
+            "startport":session['startport'],
+            "endport":session['endport']
+        }
+    except:
+        resp = {
+            "startport":"startport",
+            "endport":"endport"
+        }
+    return json.dumps(resp)
 
 @app.route("/user/setPhantomjs", methods=['GET','POST'])
 def setPhantomjs():
