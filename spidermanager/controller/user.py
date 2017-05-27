@@ -155,6 +155,14 @@ def start():
         }
     return json.dumps(resp)
 
+@app.route("/user/loadPhantomjs", methods=['GET','POST'])
+def loadPhantomjs():
+    resp = {
+        "startport":session['startport'],
+        "endport":session['endport']
+    }
+    return json.dumps({resp})
+
 @app.route("/user/setPhantomjs", methods=['GET','POST'])
 def setPhantomjs():
     startport = request.values.get('startport')
@@ -195,7 +203,7 @@ def setPhantomjs():
     rc.stopPhantomjs()
     rc.startPhantomjs()
     resp = {
-        "phantomjsPorts":+str(startport)+" to "+str(endport),
+        "phantomjsPorts":startport+" to "+endport,
     }
     return json.dumps({})
 

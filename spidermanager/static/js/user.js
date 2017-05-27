@@ -10,10 +10,7 @@ $(function(){
 
 function reload(){
   loadUser();
-//  var startport = '<%=Session["startport"] %>';
-//  var endport = '<%=Session["endport"] %>'
-//  $('#startport').val(startport);
-//  $('#endport').val(endport);
+  loadPhantomjs();
 }
 
 $('#user-modal').on('hidden.bs.modal', function (e) {
@@ -79,6 +76,19 @@ $('#submit-btn').on('click', function (e) {
     	reload();
     });
 });
+
+function loadPhantomjs(){
+    var settings = {
+    	      "async": true,
+    	      "dataType" : "json",
+    	      "url": "user/loadPhantomjs",
+    	      "method": "GET"
+    	    };
+    $.ajax(settings).done(function (response) {
+    	$("#startport").attr('placeholder',response.startport);
+    	$("#endport").attr('placeholder',response.endport);
+    });
+}
 
 function loadUser(){
 
