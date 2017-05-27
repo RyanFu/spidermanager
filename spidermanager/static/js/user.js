@@ -10,6 +10,10 @@ $(function(){
 
 function reload(){
   loadUser();
+//  var startport = '<%=Session["startport"] %>';
+//  var endport = '<%=Session["endport"] %>'
+//  $('#startport').val(startport);
+//  $('#endport').val(endport);
 }
 
 $('#user-modal').on('hidden.bs.modal', function (e) {
@@ -55,6 +59,23 @@ $('#save-btn').on('click', function (e) {
         }else if(response.status=="error"){
             alert(response.detail);
         }
+    });
+});
+
+$('#submit-btn').on('click', function (e) {
+    var settings = {
+      "async": true,
+      "dataType" : "json",
+      "url": "user/setPhantomjs",
+      "method": "POST",
+      "data": {
+          "startport":$('#startport').val(),
+          "endport":$('#endport').val()
+      }
+    };
+
+    $.ajax(settings).done(function (response) {
+    	reload();
     });
 });
 
@@ -129,7 +150,6 @@ function getUserType_to_start(username,hint,action){
 
 	    $.ajax(settings).done(function (response) {
 	    		var user_type = response.type;
-	    		alert("gets:"+user_type);
 	    		if(confirm(hint)){
 	    	        executeCommand(username,user_type,action);
 	    	    } else {

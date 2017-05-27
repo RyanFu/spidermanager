@@ -146,7 +146,7 @@ class RemoteController:
             num_fetcher = 10
         else:
             num_fetcher = 1
-        for i in range(1,num_fetcher):
+        for i in range(0,num_fetcher):
             stdin, stdout, stderr = ssh.exec_command(command=command0+command)
             print stderr.read()
             print stdout.read()
@@ -154,15 +154,22 @@ class RemoteController:
     
     # startfetcher(hostname, username, password)
     
-    def startprocessor(self, hostname, username, password):
+    def startprocessor(self, hostname, username, password, user_type):
         command = 'nohup python ' + engine_pyspider_dir + '/run.py -c ' + self.config_path + ' processor >> ' + self.log_path_slave + ' &'
         print command
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.connect(hostname=hostname, username=username, password=password)
-        stdin, stdout, stderr = ssh.exec_command(command=command0+command)
-        print stderr.read()
-        print stdout.read()
+        if user_type == 'ultimate':
+            num_fetcher = 25
+        elif user_type == 'premium':
+            num_fetcher = 5
+        else:
+            num_fetcher = 1
+        for i in range(0,num_fetcher):
+            stdin, stdout, stderr = ssh.exec_command(command=command0+command)
+            print stderr.read()
+            print stdout.read()
         ssh.close()
     
     # startprocessor(hostname, username, password)
@@ -186,8 +193,28 @@ class RemoteController:
     def startworkernode(self, hostname, username, password, user_type):
         self.prepare(hostname, username, password)
         self.startfetcher(hostname, username, password, user_type)
-        self.startprocessor(hostname, username, password)
+        self.startprocessor(hostname, username, password, user_type)
         self.startresultworker(hostname, username, password)
+    
+    def startPhantomjs(self):
+        command = 'nohup python ' + engine_pyspider_dir + '/run.py -c ' + self.config_path + ' phantomjs >> ' + self.log_path_slave + ' &'
+        print command
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        for i in range(0, len(managerhosts)):
+            ssh.connect(managerhosts[i], username, password)
+            stdin, stdout, stderr = ssh.exec_command(command=command0+command)
+            print stderr.read()
+            print stdout.read()
+        for i in range(0, len(workerhosts)):
+            ssh.connect(managerhosts[i], username, password)
+            stdin, stdout, stderr = ssh.exec_command(command=command0+command)
+            print stderr.read()
+            print stdout.read()
+        ssh.close()
+    
+    def stopPhantomjs(self):
+        self.killall()
     
     def startallmanagernode(self):
         for i in range(0, len(managerhosts)):

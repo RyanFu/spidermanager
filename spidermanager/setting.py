@@ -18,7 +18,7 @@ except Exception,e:
 
 
 if PROFILE == 'dev':
-    basedir='D:/programming/python/product/spidermanager/spidermanager'
+    basedir='D:/Git/pyspider/git/spidermanager/spidermanager'
     spdmgrport=5000
     managerhosts = ['master.hadoop']
     workerhosts= ['slave1.hadoop','slave2.hadoop']

@@ -1,217 +1,252 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>云爬虫统一监控管理平台</title>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+<title>云爬虫统一监控管理平台</title>
 
-    <!-- Bootstrap -->
-    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+<!-- Bootstrap -->
+<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}"
+	rel="stylesheet">
+<link href="{{ url_for('static', filename='css/main.css') }}"
+	rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
       <script src="{{ url_for('static', filename='js/html5shiv.min.js') }}"></script>
       <script src="{{ url_for('static', filename='js/respond.min.js') }}"></script>
     <![endif]-->
-  </head>
-  <body>
+</head>
+<body>
 
-  <div class="modal fade" tabindex="-1" role="dialog" id="process-modal">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">操作进度</h4>
-          </div>
-          <div class="modal-body">
-
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-
-  <div class="modal fade" tabindex="-1" role="dialog" id="user-modal">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">租户配置</h4>
-          </div>
-          <div class="modal-body">
-            <form class="form-horizontal" id="user-form">
-              <div class="form-group">
-                <label for="username" class="col-sm-3 control-label">租户ID</label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" id="username" placeholder="username">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="description" class="col-sm-3 control-label">描述</label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" id="description" placeholder="description">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="password" class="col-sm-3 control-label">密码</label>
-                <div class="col-sm-8">
-                  <input type="password" class="form-control" id="password" placeholder="password">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="type" class="col-sm-3 control-label">类型</label>
-                <div class="col-sm-8">
-                  <select class="form-control" id="type">
-                      <option value="basic">基本套餐</option>
-                      <option value="premium">高级套餐</option>
-                      <option value="ultimate">旗舰套餐</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="webuiport" class="col-sm-3 control-label">webui端口</label>
-                <div class="col-sm-8">
-                  <input type="number" class="form-control" id="webuiport" placeholder="webuiport">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="schedulerport" class="col-sm-3 control-label">scheduler端口</label>
-                <div class="col-sm-8">
-                  <input type="number" class="form-control" id="schedulerport" placeholder="schedulerport">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="projectdb" class="col-sm-3 control-label">项目库</label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" id="projectdb" placeholder="projectdb">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="taskdb" class="col-sm-3 control-label">任务库</label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" id="taskdb" placeholder="taskdb">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="resultdb" class="col-sm-3 control-label">结果库</label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" id="resultdb" placeholder="resultdb">
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-            <button type="button" class="btn btn-primary" id="save-btn">保存</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-    <div class="container">
-
-      <div class="row">
-
-        <div class="col-md-10">
-          <h1>云爬虫统一监控管理平台</h1>
-        </div>
-        <div class="col-md-2">
-          欢迎 {{admin}}，<a href="logout">退出</a>
-        </div>
-
-      </div>
+	<div class="modal fade" tabindex="-1" role="dialog" id="process-modal">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">操作进度</h4>
+				</div>
+				<div class="modal-body"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
 
 
-        <hr>
+	<div class="modal fade" tabindex="-1" role="dialog" id="user-modal">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">租户配置</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="user-form">
+						<div class="form-group">
+							<label for="username" class="col-sm-3 control-label">租户ID</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" id="username"
+									placeholder="username">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="description" class="col-sm-3 control-label">描述</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" id="description"
+									placeholder="description">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="password" class="col-sm-3 control-label">密码</label>
+							<div class="col-sm-8">
+								<input type="password" class="form-control" id="password"
+									placeholder="password">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="type" class="col-sm-3 control-label">类型</label>
+							<div class="col-sm-8">
+								<select class="form-control" id="type">
+									<option value="basic">基本套餐</option>
+									<option value="premium">高级套餐</option>
+									<option value="ultimate">旗舰套餐</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="webuiport" class="col-sm-3 control-label">webui端口</label>
+							<div class="col-sm-8">
+								<input type="number" class="form-control" id="webuiport"
+									placeholder="webuiport">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="schedulerport" class="col-sm-3 control-label">scheduler端口</label>
+							<div class="col-sm-8">
+								<input type="number" class="form-control" id="schedulerport"
+									placeholder="schedulerport">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="projectdb" class="col-sm-3 control-label">项目库</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" id="projectdb"
+									placeholder="projectdb">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="taskdb" class="col-sm-3 control-label">任务库</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" id="taskdb"
+									placeholder="taskdb">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="resultdb" class="col-sm-3 control-label">结果库</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" id="resultdb"
+									placeholder="resultdb">
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="save-btn">保存</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
 
-        <div class="row">
+	<div class="container">
 
-            <div class="panel panel-default" id="account-panel">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        租户管理
-                        <button type="button" class="btn btn-sm btn-default" data-toggle="modal" href="#user-modal" id="add-button">新增</button>
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    <table class="table table-hover">
-                      <thead>
-                        <tr>
-                          <th>序号</th>
-                          <th>租户ID</th>
-                          <th>描述</th>
-                          <th>类型</th>
-                          <th>状态</th>
-                          <th>操作</th>
-                        </tr>
-                      </thead>
-                      <tbody id="user-tbody">
-                        <!--<tr>-->
-                          <!--<th scope="row">2</th>-->
-                          <!--<td>user02</td>-->
-                          <!--<td>租户02</td>-->
-                          <!--<td>基本套餐</td>-->
-                          <!--<td style="color: red">已停止</td>-->
-                          <!--<td>-->
-                              <!--<button type="button" class="btn btn-sm btn-success">启动</button>-->
-                              <!--<button type="button" class="btn btn-sm btn-danger" disabled="disabled">停止</button>-->
-                              <!--<button type="button" class="btn btn-sm btn-warning">重启</button>-->
-                              <!--<button type="button" class="btn btn-sm btn-primary">编辑</button>-->
-                              <!--<button type="button" class="btn btn-sm btn-danger">删除</button>-->
-                              <!--<button type="button" class="btn btn-sm btn-default" disabled="disabled">查看详情</button>-->
-                          <!--</td>-->
-                        <!--</tr>-->
-                        <!--<tr>-->
-                          <!--<th scope="row">3</th>-->
-                          <!--<td>user03</td>-->
-                          <!--<td>租户03</td>-->
-                          <!--<td>基本套餐</td>-->
-                          <!--<td style="color: green">已启动</td>-->
-                          <!--<td>-->
-                              <!--<button type="button" class="btn btn-sm btn-success" disabled="disabled">启动</button>-->
-                              <!--<button type="button" class="btn btn-sm btn-danger">停止</button>-->
-                              <!--<button type="button" class="btn btn-sm btn-warning">重启</button>-->
-                              <!--<button type="button" class="btn btn-sm btn-primary" disabled="disabled">编辑</button>-->
-                              <!--<button type="button" class="btn btn-sm btn-danger" disabled="disabled">删除</button>-->
-                              <!--<button type="button" class="btn btn-sm btn-default">查看详情</button>-->
-                          <!--</td>-->
-                        <!--</tr>-->
-                        <!--<tr>-->
-                          <!--<th scope="row">4</th>-->
-                          <!--<td>user04</td>-->
-                          <!--<td>租户04</td>-->
-                          <!--<td>基本套餐</td>-->
-                          <!--<td style="color: gold">执行中</td>-->
-                          <!--<td>-->
-                              <!--<button type="button" class="btn btn-sm btn-success" disabled="disabled">启动</button>-->
-                              <!--<button type="button" class="btn btn-sm btn-danger" disabled="disabled">停止</button>-->
-                              <!--<button type="button" class="btn btn-sm btn-warning" disabled="disabled">重启</button>-->
-                              <!--<button type="button" class="btn btn-sm btn-primary" disabled="disabled">编辑</button>-->
-                              <!--<button type="button" class="btn btn-sm btn-danger" disabled="disabled">删除</button>-->
-                              <!--<button type="button" class="btn btn-sm btn-default" disabled="disabled">查看详情</button>-->
-                          <!--</td>-->
-                        <!--</tr>-->
-                      </tbody>
-                    </table>
-                </div>
-            </div>
+		<div class="row">
 
-        </div>
+			<div class="col-md-10">
+				<h1>云爬虫统一监控管理平台</h1>
+			</div>
+			<div class="col-md-2">
+				欢迎 {{admin}}，<a href="logout">退出</a>
+			</div>
 
-    </div>
+		</div>
 
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/user.js') }}"></script>
-  </body>
+		<hr>
+
+		<div class="row">
+
+			<div class="panel panel-default" id="account-panel">
+				<div class="panel-heading">
+				    <div class="panel-title">
+				    	<h3 class="" align="left">
+						租户管理
+							<button type="button" class="btn btn-sm btn-default"
+								data-toggle="modal" href="#user-modal" id="add-button">新增</button>
+						</h3>
+				    </div>
+					<div class="phantomjs-ports">
+					   <h3 class="" align="right">
+						    <form action="/user/setPhantomjs" method="post">
+	                            Phantomjs 端口:[
+	                            <input type="text" id="startport" style="width:50px;height:30px;font-size:15px" value={{startport}} >
+	                            ,
+	                            <input type="text" id="endport" style="width:50px;height:30px;font-size:15px" value= {{endport}} >
+	                            ]
+	                            <button type="button" class="btn btn-sm btn-default" id="submit-btn">提交</button>
+	                        </form>
+                       </h3>
+                    </div>
+				</div>
+				<div class="panel-body">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>租户ID</th>
+								<th>描述</th>
+								<th>类型</th>
+								<th>状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody id="user-tbody">
+							<!--<tr>-->
+							<!--<th scope="row">2</th>-->
+							<!--<td>user02</td>-->
+							<!--<td>租户02</td>-->
+							<!--<td>基本套餐</td>-->
+							<!--<td style="color: red">已停止</td>-->
+							<!--<td>-->
+							<!--<button type="button" class="btn btn-sm btn-success">启动</button>-->
+							<!--<button type="button" class="btn btn-sm btn-danger" disabled="disabled">停止</button>-->
+							<!--<button type="button" class="btn btn-sm btn-warning">重启</button>-->
+							<!--<button type="button" class="btn btn-sm btn-primary">编辑</button>-->
+							<!--<button type="button" class="btn btn-sm btn-danger">删除</button>-->
+							<!--<button type="button" class="btn btn-sm btn-default" disabled="disabled">查看详情</button>-->
+							<!--</td>-->
+							<!--</tr>-->
+							<!--<tr>-->
+							<!--<th scope="row">3</th>-->
+							<!--<td>user03</td>-->
+							<!--<td>租户03</td>-->
+							<!--<td>基本套餐</td>-->
+							<!--<td style="color: green">已启动</td>-->
+							<!--<td>-->
+							<!--<button type="button" class="btn btn-sm btn-success" disabled="disabled">启动</button>-->
+							<!--<button type="button" class="btn btn-sm btn-danger">停止</button>-->
+							<!--<button type="button" class="btn btn-sm btn-warning">重启</button>-->
+							<!--<button type="button" class="btn btn-sm btn-primary" disabled="disabled">编辑</button>-->
+							<!--<button type="button" class="btn btn-sm btn-danger" disabled="disabled">删除</button>-->
+							<!--<button type="button" class="btn btn-sm btn-default">查看详情</button>-->
+							<!--</td>-->
+							<!--</tr>-->
+							<!--<tr>-->
+							<!--<th scope="row">4</th>-->
+							<!--<td>user04</td>-->
+							<!--<td>租户04</td>-->
+							<!--<td>基本套餐</td>-->
+							<!--<td style="color: gold">执行中</td>-->
+							<!--<td>-->
+							<!--<button type="button" class="btn btn-sm btn-success" disabled="disabled">启动</button>-->
+							<!--<button type="button" class="btn btn-sm btn-danger" disabled="disabled">停止</button>-->
+							<!--<button type="button" class="btn btn-sm btn-warning" disabled="disabled">重启</button>-->
+							<!--<button type="button" class="btn btn-sm btn-primary" disabled="disabled">编辑</button>-->
+							<!--<button type="button" class="btn btn-sm btn-danger" disabled="disabled">删除</button>-->
+							<!--<button type="button" class="btn btn-sm btn-default" disabled="disabled">查看详情</button>-->
+							<!--</td>-->
+							<!--</tr>-->
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/user.js') }}"></script>
+</body>
 </html>

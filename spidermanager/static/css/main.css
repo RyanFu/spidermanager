@@ -1,4 +1,25 @@
-#user-panel{
-    /*margin-left: 20px;*/
-    /*margin-right: 20px;*/
+#user-panel {
+	/*margin-left: 20px;*/
+	/*margin-right: 20px;*/
+	
+}
+.panel-heading
+{
+    margin: 0 atuo;
+    height: 100px;
+    text-align:center;
+}
+.panel-title
+{
+    margin: 10px 0;
+    height :100%;
+    width:45%;
+    float:left;
+}
+.phantomjs-ports
+{
+    margin: 10px 0;
+    height :100%;
+    width:45%;
+    float:right;
 }
