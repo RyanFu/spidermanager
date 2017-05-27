@@ -191,13 +191,13 @@ def setPhantomjs():
     f1=open(basedir + "/templates/config.tpl","wb")
     f1.write(config)
     f1.close()
-#     from spidermanager.service.remote_controller import RemoteController
-#     rc = RemoteController("phantomjs")#Phantomjs日志文件phantomjs.log
-#     rc.stopPhantomjs()
-#     rc.startPhantomjs()
-#     resp = {
-#         "phantomjsPorts":+str(startport)+" to "+str(endport),
-#     }
+    from spidermanager.service.remote_controller import RemoteController
+    rc = RemoteController("phantomjs")#Phantomjs日志文件phantomjs.log
+    rc.stopPhantomjs()
+    rc.startPhantomjs()
+    resp = {
+        "phantomjsPorts":+str(startport)+" to "+str(endport),
+    }
     return json.dumps({})
 
 @app.route("/user/stop", methods=['GET','POST'])

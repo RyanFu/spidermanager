@@ -75,6 +75,7 @@ $('#submit-btn').on('click', function (e) {
     };
 
     $.ajax(settings).done(function (response) {
+    	alert("设置成功!");
     	reload();
     });
 });
@@ -174,7 +175,6 @@ $('#user-tbody').on('click','.btn-restart', function (e) {
 });
 
 function executeCommand(username,user_type,action){
-	alert(username+user_type);
     var settings = {
       "async": true,
       "dataType" : "json",
