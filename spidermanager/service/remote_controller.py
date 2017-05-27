@@ -202,13 +202,14 @@ class RemoteController:
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         for i in range(0, len(managerhosts)):
-            ssh.connect(managerhosts[i], username, password)
+            #需要注意：https://stackoverflow.com/questions/22251258/paramiko-error-servname-not-supported-for-ai-socktype
+            ssh.connect(hostname=managerhosts[i], username=username, password=password)
             self.prepare(managerhosts[i], username, password)
             stdin, stdout, stderr = ssh.exec_command(command=command0+command)
             print stderr.read()
             print stdout.read()
         for i in range(0, len(workerhosts)):
-            ssh.connect(workerhosts[i], username, password)
+            ssh.connect(hostname=workerhosts[i], username=username, password=password)
             self.prepare(workerhosts[i], username, password)
             stdin, stdout, stderr = ssh.exec_command(command=command0+command)
             print stderr.read()
