@@ -162,35 +162,6 @@ def setPhantomjs():
     session['startport'] = startport
     session['endport'] = endport
     print startport,endport
-    #修改模板
-    f0=open(basedir + "/templates/config.tpl.bak","r")
-    str_f0 = f0.read()
-    f0.close()
-    tpl = Template(str_f0)
-    phantomjs_endpoint = ""
-    ports = ""
-    for i in range(int(startport),int(endport)+1):
-        if i != int(endport):
-            phantomjs_endpoint = phantomjs_endpoint+"127.0.0.1:"+str(i)+","
-            ports = ports+str(i)+","
-        else:
-            phantomjs_endpoint = phantomjs_endpoint+"127.0.0.1:"+str(i)
-            ports = ports+str(i)
-    config =  tpl.render(
-        phantomjs_endpoint = phantomjs_endpoint,
-        ports = ports,
-        taskdb = "{{ taskdb }}",
-        projectdb = "{{ projectdb }}",
-        resultdb = "{{ resultdb }}",
-        schedulerhost = "{{ schedulerhost }}",
-        schedulerport = "{{ schedulerport }}",
-        username = "{{ username }}",
-        webuiport = "{{ webuiport }}",
-        password = "{{ password }}"
-    )
-    f1=open(basedir + "/templates/config.tpl","wb")
-    f1.write(config)
-    f1.close()
     from spidermanager.service.remote_controller import RemoteController
     rc = RemoteController("phantomjs")#Phantomjs日志文件phantomjs.log
     rc.stopPhantomjs()

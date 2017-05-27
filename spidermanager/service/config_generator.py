@@ -6,6 +6,8 @@ from jinja2 import Template
 from spidermanager.model.user import User
 from spidermanager.setting import basedir
 
+from flask import request, redirect, url_for, jsonify, session
+
 
 def generate_config(username):
 
@@ -20,6 +22,16 @@ def generate_config(username):
     tpl = Template(str)
 
     user = User.query.filter_by(username=username).first()
+    
+    phantomjs_endpoint = ""
+    ports = ""
+    for i in range(int(session['startport']),int(session['endport'])+1):
+        if i != int(session['endport']):
+            phantomjs_endpoint = phantomjs_endpoint+"127.0.0.1:"+str(i)+","
+            ports = ports+str(i)+","
+        else:
+            phantomjs_endpoint = phantomjs_endpoint+"127.0.0.1:"+str(i)
+            ports = ports+str(i)
 
     config =  tpl.render(
         taskdb=user.taskdb,
@@ -29,7 +41,9 @@ def generate_config(username):
         schedulerport=user.schedulerport,
         username=user.username,
         webuiport=user.webuiport,
-        password=user.password
+        password=user.password,
+        phantomjs_endpoint = phantomjs_endpoint,
+        ports = ports
     )
 
 
