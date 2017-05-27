@@ -15,9 +15,9 @@ def generate_config(username):
 
     f0=open(basedir + "/templates/config.tpl","r")
 
-    str = f0.read()
+    str_f0 = f0.read()
 
-    f0.close()
+    str_f0.close()
 
     tpl = Template(str)
 
