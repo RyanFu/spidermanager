@@ -13,7 +13,7 @@ base_dir = "/home/"+ username + "/spidermanager"
 runtime_dir = base_dir + "/runtime"
 log_dir = base_dir + "/log"
 engine_pyspider_dir = "/home/"+ username + "/spidermanager/engine/pyspider"
-command0 = "source /etc/profile; source ~/.bash_profile; "
+command0 = "source /etc/profile; source ~/.bashrc; "
 
 
 class RemoteController:
@@ -217,7 +217,24 @@ class RemoteController:
         ssh.close()
     
     def stopPhantomjs(self):
-        self.killall()
+        command = 'ps -ef | grep phantomjs | grep python |awk \'{print $2}\'|xargs kill -s 9;killall phantomjs'
+        print command
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        for i in range(0, len(managerhosts)):
+            self.prepare(managerhosts[i], username, password)
+            #需要注意：https://stackoverflow.com/questions/22251258/paramiko-error-servname-not-supported-for-ai-socktype
+            ssh.connect(hostname=managerhosts[i], username=username, password=password)
+            stdin, stdout, stderr = ssh.exec_command(command=command0+command)
+            print stderr.read()
+            print stdout.read()
+        for i in range(0, len(workerhosts)):
+            self.prepare(workerhosts[i], username, password)
+            ssh.connect(hostname=workerhosts[i], username=username, password=password)
+            stdin, stdout, stderr = ssh.exec_command(command=command0+command)
+            print stderr.read()
+            print stdout.read()
+        ssh.close()
     
     def startallmanagernode(self):
         for i in range(0, len(managerhosts)):
