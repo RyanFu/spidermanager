@@ -37,9 +37,9 @@ class RemoteController:
     # mkconfigdir(hostname, username, password)
 
     def mklogdir(self, hostname, username, password):
-        commandm = 'mkdir -p ' + self.log_dir_master + ";"
+        commandm = 'mkdir -p ' + log_dir_master + ";"
         print commandm
-        commands = 'mkdir -p ' + self.log_dir_slave + ";"
+        commands = 'mkdir -p ' + log_dir_slave + ";"
         print commands
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
