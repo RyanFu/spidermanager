@@ -18,12 +18,12 @@ except Exception,e:
 
 
 if PROFILE == 'dev':
-    log_dir_master="D:/Git/pyspider/git/spidermanager/spidermanager"
+    log_dir_master = "D:/Git/pyspider/git/spidermanager/spidermanager"
     log_dir_slave = "D:/Git/pyspider/git/spidermanager/spidermanager"
-    basedir='D:/Git/pyspider/git/spidermanager/spidermanager'
-    spdmgrport=5000
+    basedir = 'D:/Git/pyspider/git/spidermanager/spidermanager'
+    spdmgrport = 5000
     managerhosts = ['master.hadoop']
-    workerhosts= ['slave1.hadoop','slave2.hadoop']
+    workerhosts = ['slave1.hadoop','slave2.hadoop']
     #SQLALCHEMY_DATABASE_URI = "oracle://spdmgr:spdmgr_1Q#@oracle-datasource:1521/pdbspdmgr"
     SQLALCHEMY_DATABASE_URI = "oracle://SCOTT:gb666666@localhost:1521/ORCL"
     # SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://app:123456@localhost:3306/spdmgr"
@@ -46,10 +46,10 @@ if PROFILE == 'dev':
     hdfs_user = "hadoop"
 
 elif PROFILE == 'test':
-    log_dir_master="/home/spd/spidermanager/runtime/log"
+    log_dir_master = "/home/spd/spidermanager/runtime/log"
     log_dir_slave = "/home/spd/spidermanager/runtime/log"
-    spdmgrport=5888
-    basedir='/home/spd/spidermanager/server/spidermanager'
+    spdmgrport = 5888
+    basedir = '/home/spd/spidermanager/server/spidermanager'
     managerhosts = ['20.26.26.43']
     workerhosts = ['20.26.25.224','20.26.25.225']
     SQLALCHEMY_DATABASE_URI = "oracle://pyspd_admin:pyspd_admin_1Q#@pdb_bdprd"
@@ -95,9 +95,9 @@ elif PROFILE == 'test':
 
 elif PROFILE == 'prod':
     log_dir_master = "/data/log"
-    log_dir_slave="/srv/BigData/data1/log/univider/pyspider_log"
-    spdmgrport=5000
-    basedir='/home/spd/spidermanager/server/spidermanager'
+    log_dir_slave = "/srv/BigData/data1/log/univider/pyspider_log"
+    spdmgrport = 5000
+    basedir = '/home/spd/spidermanager/server/spidermanager'
     managerhosts = ['10.78.238.55']
     workerhosts = ['10.78.190.229','10.78.190.230','10.78.190.231','10.78.190.232','10.78.190.233','10.78.190.234','10.78.190.235']
     SQLALCHEMY_DATABASE_URI = "oracle://spd_admin:spd_admin_1Q#@pdb_spider"

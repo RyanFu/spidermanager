@@ -9,10 +9,9 @@ allhosts = managerhosts + workerhosts
 port = 22
 username = 'spd'
 password = 'py_spd'
-base_dir = "/home/"+ username + "/spidermanager"
+base_dir = "/home/" + username + "/spidermanager"
 runtime_dir = base_dir + "/runtime"
-log_dir = base_dir + "/log"
-engine_pyspider_dir = "/home/"+ username + "/spidermanager/engine/pyspider"
+engine_pyspider_dir = base_dir + "/engine/pyspider"
 command0 = "source /etc/profile; source ~/.bashrc; "
 
 
@@ -21,8 +20,8 @@ class RemoteController:
     def __init__(self, user):
         self.user = user
         self.log_path_slave = log_dir_slave + "/" + user + ".log"
-        self.log_path_master=log_dir_master + "/" + user + ".log"
-        self.config_path = runtime_dir+"/"+user+".json"
+        self.log_path_master = log_dir_master + "/" + user + ".log"
+        self.config_path = runtime_dir + "/" + user + ".json"
 
     def mkconfigdir(self, hostname, username, password):
         command = 'mkdir -p ' + runtime_dir
@@ -38,12 +37,14 @@ class RemoteController:
     # mkconfigdir(hostname, username, password)
 
     def mklogdir(self, hostname, username, password):
-        command = 'mkdir -p ' + log_dir
-        print command
+        commandm = 'mkdir -p ' + self.log_dir_master + ";"
+        print commandm
+        commands = 'mkdir -p ' + self.log_dir_slave + ";"
+        print commands
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.connect(hostname=hostname, username=username, password=password)
-        stdin, stdout, stderr = ssh.exec_command(command=command)
+        stdin, stdout, stderr = ssh.exec_command(command=commandm+commands)
         print stderr.read()
         print stdout.read()
         ssh.close()
