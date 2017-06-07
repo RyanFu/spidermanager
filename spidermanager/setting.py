@@ -46,8 +46,8 @@ if PROFILE == 'dev':
     hdfs_user = "hadoop"
 
 elif PROFILE == 'vm':
-    log_dir_master = "/home/spd/spidermanager/runtime/log"
-    log_dir_slave = "/home/spd/spidermanager/runtime/log"
+    log_dir_master = "/home/spd/spidermanager/log"
+    log_dir_slave = "/home/spd/spidermanager/log"
     spdmgrport = 5888
     basedir = '/home/spd/spidermanager/server/spidermanager'
     managerhosts = ['master.hadoop']
@@ -72,8 +72,8 @@ elif PROFILE == 'vm':
     hdfs_user = "hadoop"
 
 elif PROFILE == 'test':
-    log_dir_master = "/home/spd/spidermanager/runtime/log"
-    log_dir_slave = "/home/spd/spidermanager/runtime/log"
+    log_dir_master = "/home/spd/spidermanager/log"
+    log_dir_slave = "/home/spd/spidermanager/log"
     spdmgrport = 5888
     basedir = '/home/spd/spidermanager/server/spidermanager'
     managerhosts = ['20.26.26.43']

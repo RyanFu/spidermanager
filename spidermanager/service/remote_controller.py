@@ -37,14 +37,14 @@ class RemoteController:
     # mkconfigdir(hostname, username, password)
 
     def mklogdir(self, hostname, username, password):
-        commandm = 'mkdir -p ' + log_dir_master + ";"
+        commandm = 'mkdir -p ' + log_dir_master + "; "
         print commandm
-        commands = 'mkdir -p ' + log_dir_slave + ";"
+        commands = 'mkdir -p ' + log_dir_slave + "; "
         print commands
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.connect(hostname=hostname, username=username, password=password)
-        stdin, stdout, stderr = ssh.exec_command(command=commandm+commands)
+        stdin, stdout, stderr = ssh.exec_command(command=commandm + commands)
         print stderr.read()
         print stdout.read()
         ssh.close()
@@ -54,7 +54,7 @@ class RemoteController:
 
     def uploadconfig(self, hostname, username, password):
 
-        t = paramiko.Transport((hostname, port))
+        t = paramiko.Transport(hostname, port)
 
         t.connect(username=username, password=password)
 
@@ -109,7 +109,7 @@ class RemoteController:
     # killall(hostname, username, password)
 
     def startwebui(self, hostname, username, password):
-        command = 'nohup python ' + engine_pyspider_dir + '/run.py -c ' + self.config_path + ' webui >> '+ self.log_path_master + ' &'
+        command = 'nohup python ' + engine_pyspider_dir + '/run.py -c ' + self.config_path + ' webui >> ' + self.log_path_master + ' &'
         print command
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
