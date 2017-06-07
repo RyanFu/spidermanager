@@ -27,7 +27,33 @@ if PROFILE == 'dev':
     #SQLALCHEMY_DATABASE_URI = "oracle://spdmgr:spdmgr_1Q#@oracle-datasource:1521/pdbspdmgr"
     SQLALCHEMY_DATABASE_URI = "oracle://SCOTT:gb666666@localhost:1521/ORCL"
     # SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://app:123456@localhost:3306/spdmgr"
-    redis_nodes =  [{'host':'192.168.136.130','port':7000},
+    redis_nodes = [{'host':'192.168.136.130','port':7000},
+                    {'host':'192.168.136.130','port':7001},
+                    {'host':'192.168.136.130','port':7002},
+                    {'host':'192.168.136.131','port':7000},
+                    {'host':'192.168.136.131','port':7001},
+                    {'host':'192.168.136.131','port':7002},
+                    ]
+    redis_expires = 30
+    landing = []
+    hbase_host = 'master.hadoop'
+    hbase_port = 9090
+    accessid = ''
+    accesskey = ''
+    es_host = ["master.hadoop"]
+    hdfs_web = "http://master.hadoop:50070"
+    hdfs_dir = "/user/spider/cplatform/"
+    hdfs_user = "hadoop"
+
+elif PROFILE == 'vm':
+    log_dir_master = "/home/spd/spidermanager/runtime/log"
+    log_dir_slave = "/home/spd/spidermanager/runtime/log"
+    spdmgrport = 5888
+    basedir = '/home/spd/spidermanager/server/spidermanager'
+    managerhosts = ['master.hadoop']
+    workerhosts = ['slave1.hadoop','slave2.hadoop']
+    SQLALCHEMY_DATABASE_URI = "oracle://spdmgr:spdmgr_1Q#@oracle-datasource:1521/pdbspdmgr"
+    redis_nodes = [{'host':'192.168.136.130','port':7000},
                     {'host':'192.168.136.130','port':7001},
                     {'host':'192.168.136.130','port':7002},
                     {'host':'192.168.136.131','port':7000},
