@@ -2,12 +2,15 @@
  * Created by taoyang on 2017/3/23.
  */
 
+
+
 $(function(){
     reload();
 });
 
 function reload(){
   loadUser();
+  loadPhantomjs();
 }
 
 $('#user-modal').on('hidden.bs.modal', function (e) {
@@ -55,6 +58,37 @@ $('#save-btn').on('click', function (e) {
         }
     });
 });
+
+$('#submit-btn').on('click', function (e) {
+    var settings = {
+      "async": true,
+      "dataType" : "json",
+      "url": "user/setPhantomjs",
+      "method": "POST",
+      "data": {
+          "startport":$('#startport').val(),
+          "endport":$('#endport').val()
+      }
+    };
+
+    $.ajax(settings).done(function (response) {
+    	alert("设置成功!");
+    	reload();
+    });
+});
+
+function loadPhantomjs(){
+    var settings = {
+    	      "async": true,
+    	      "dataType" : "json",
+    	      "url": "user/loadPhantomjs",
+    	      "method": "GET"
+    	    };
+    $.ajax(settings).done(function (response) {
+    	$("#startport").attr('placeholder',response.startport);
+    	$("#endport").attr('placeholder',response.endport);
+    });
+}
 
 function loadUser(){
 
@@ -114,39 +148,51 @@ function deleteUser(username){
     });
 }
 
+function getUserType_to_start(username,hint,action){
+	    var settings = {
+	      "async": true,
+	      "dataType" : "json",
+	      "url": "user/get",
+	      "method": "POST",
+	      "data": {
+	          "username":username
+	      }
+	    };
+
+	    $.ajax(settings).done(function (response) {
+	    		var user_type = response.type;
+	    		if(confirm(hint)){
+	    	        executeCommand(username,user_type,action);
+	    	    } else {
+	    	        return;
+	    	    }
+	    });
+}
+
 $('#user-tbody').on('click','.btn-start', function (e) {
-    if(confirm("确认启动吗")){
-        executeCommand($(this).parent().parent().data('id'),"start")
-    } else {
-        return;
-    }
+    var username = $(this).parent().parent().data('id');
+    getUserType_to_start(username,"确认启动吗","start");
 });
 
 $('#user-tbody').on('click','.btn-stop', function (e) {
-    if(confirm("确认停止吗")){
-        executeCommand($(this).parent().parent().data('id'),"stop")
-    } else {
-        return;
-    }
+    var username = $(this).parent().parent().data('id');
+    getUserType_to_start(username,"确认停止吗","stop");
 });
 
 $('#user-tbody').on('click','.btn-restart', function (e) {
-    if(confirm("确认重启吗")){
-        executeCommand($(this).parent().parent().data('id'),"restart")
-    } else {
-        return;
-    }
+    var username = $(this).parent().parent().data('id');
+    getUserType_to_start(username,"确认重启吗","restart");
 });
 
-function executeCommand(username,action){
-
+function executeCommand(username,user_type,action){
     var settings = {
       "async": true,
       "dataType" : "json",
       "url": "user/"+action,
       "method": "POST",
       "data": {
-          "username":username
+          "username":username,
+          "user_type":user_type
       }
     };
 
@@ -158,6 +204,7 @@ function executeCommand(username,action){
         }
     });
 }
+
 
 $('#user-tbody').on('click','.btn-detail', function (e) {
 

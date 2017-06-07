@@ -2,13 +2,15 @@
 import base64
 import json
 
-from flask import request, redirect, url_for, jsonify
+from flask import request, redirect, url_for, jsonify, session
 
 from spidermanager import app,db
 from spidermanager.model.user import User
 from spidermanager.setting import managerhosts
 from spidermanager.util.action_result import list2json, obj2json
 
+from spidermanager.setting import basedir
+from jinja2 import Template
 
 import sys
 reload(sys)
@@ -97,7 +99,6 @@ def delete():
 
 @app.route("/user/load", methods=['GET','POST'])
 def load():
-
     users = db.session.query(User).all()
 
     for user in users:
@@ -107,7 +108,6 @@ def load():
             print e
 
     return list2json(users)
-
 
 @app.route("/user/get", methods=['GET','POST'])
 def get():
@@ -134,11 +134,11 @@ def getlink():
 
 @app.route("/user/start", methods=['GET','POST'])
 def start():
-
     username = request.values.get('username')
+    user_type = request.values.get('user_type')
     from spidermanager.service.remote_controller import RemoteController
     rc = RemoteController(username)
-    rc.startall()
+    rc.startall(user_type)
     user = User.query.filter_by(username=username).first()
     user.status = "running"
     try:
@@ -155,6 +155,63 @@ def start():
         }
     return json.dumps(resp)
 
+@app.route("/user/loadPhantomjs", methods=['GET','POST'])
+def loadPhantomjs():
+    try:
+        resp = {
+            "startport":session['startport'],
+            "endport":session['endport']
+        }
+    except:
+        resp = {
+            "startport":"startport",
+            "endport":"endport"
+        }
+    return json.dumps(resp)
+
+@app.route("/user/setPhantomjs", methods=['GET','POST'])
+def setPhantomjs():
+    startport = request.values.get('startport')
+    endport = request.values.get('endport')
+    session['startport'] = startport
+    session['endport'] = endport
+    print startport,endport
+    f0=open(basedir + "/templates/config.tpl.bak","r")
+    str_f0 = f0.read()
+    f0.close()
+    tpl = Template(str_f0)    
+    phantomjs_endpoint = ""
+    ports = ""
+    for i in range(int(startport),int(endport)+1):
+        if i != int(session['endport']):
+            phantomjs_endpoint = phantomjs_endpoint+"127.0.0.1:"+str(i)+","
+            ports = ports+str(i)+","
+        else:
+            phantomjs_endpoint = phantomjs_endpoint+"127.0.0.1:"+str(i)
+            ports = ports+str(i)
+    config =  tpl.render(
+        taskdb="{{ taskdb }}",
+        projectdb="{{ projectdb }}",
+        resultdb="{{ resultdb }}",
+        schedulerhost="{{ schedulerhost }}",
+        schedulerport="{{ schedulerport }}",
+        username="{{ username }}",
+        webuiport="{{ webuiport }}",
+        password="{{ password }}",
+        phantomjs_endpoint = phantomjs_endpoint,
+        ports = ports
+    )
+    f1=open(basedir + "/templates/config.tpl","wb")
+    f1.write(config)
+    f1.close()
+    from spidermanager.service.remote_controller import RemoteController
+    rc = RemoteController("phantomjs")#Phantomjs日志文件phantomjs.log
+    rc.stopPhantomjs()
+    rc.startPhantomjs()
+    resp = {
+        "phantomjsPorts":startport+" to "+endport,
+    }
+    return json.dumps({})
 
 @app.route("/user/stop", methods=['GET','POST'])
 def stop():
@@ -184,10 +241,11 @@ def stop():
 def restart():
 
     username = request.values.get('username')
+    user_type = request.values.get('user_type')
     from spidermanager.service.remote_controller import RemoteController
     rc = RemoteController(username)
     rc.killall()
-    rc.startall()
+    rc.startall(user_type)
     user = User.query.filter_by(username=username).first()
     user.status = "running"
     try:
